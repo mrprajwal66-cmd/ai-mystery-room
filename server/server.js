@@ -5,14 +5,25 @@ require('dotenv').config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
+
 const allowedOrigins = [
   'http://localhost:5173',
+  'https://ai-mystery-room-lake.vercel.app',
   process.env.CLIENT_URL
 ].filter(Boolean)
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(cors({
+  origin: (origin, callback) => {
+    // allow requests with no origin (Postman, curl, health checks)
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    }
+    return callback(new Error('Not allowed by CORS'))
+  }
+}))
 app.use(express.json())
+
 const caseRoutes = require('./routes/caseRoutes')
 app.use('/api/cases', caseRoutes)
 
@@ -37,7 +48,7 @@ async function connectDB() {
     await mongoose.connect(process.env.MONGODB_URI)
 
     console.log('MongoDB connected successfully!')
-    
+
     app.listen(PORT, () => {
       console.log(`Backend running at http://localhost:${PORT}`)
     })
