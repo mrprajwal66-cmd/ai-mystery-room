@@ -1,0 +1,60 @@
+
+### Health check
+GET http://localhost:5000/api/health
+
+###
+
+### Create mystery
+POST http://localhost:5000/api/cases
+Content-Type: application/json
+
+{
+  "premise": "A valuable diamond disappeared from a locked museum room.",
+  "difficulty": "Easy"
+}
+
+### Get existing mystery case
+GET http://localhost:5000/api/cases/6ae41febafa4db93fb344edd
+
+### Discover first clue
+POST http://localhost:5000/api/cases/6ae41febafa4db93fb344edd/clues/6ae41febafa4db93fb344ee1/discover
+
+### Request first hint
+POST http://localhost:5000/api/cases/6ae41febafa4db93fb344edd/hints
+
+### Generate a fresh mystery with hints
+POST http://localhost:5000/api/cases
+Content-Type: application/json
+
+{
+  "premise": "A valuable diamond disappeared from a locked museum room.",
+  "difficulty": "Easy"
+}
+
+### Request first hint
+POST http://localhost:5000/api/cases/6ae434889ea453d64593487c/hints
+
+### Accuse a suspect
+POST http://localhost:5000/api/cases/6ae434889ea453d64593487c/accuse
+Content-Type: application/json
+
+{
+  "suspectName": "Simon Reed"
+}
+
+### Get mystery result
+GET http://localhost:5000/api/cases/6ae434889ea453d64593487c/result
+
+POST http://localhost:5000/api/cases
+Content-Type: application/json
+
+{
+  "premise": "A businessman was found murdered in his locked office. Three employees had access to the office, and each has a different story.",
+  "difficulty": "Easy"
+}
+
+### Get Detective Dashboard and Case History
+GET http://localhost:5000/api/cases/history
+
+### Get Case Details
+GET http://localhost:5000/api/cases/6ae71ab50acb69f83e30d8f2
